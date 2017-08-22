@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::post('/carousel/add','CarouselController@add');
+Route::delete('/carousel/del','CarouselController@del');
+Route::post('/carousel/edit','CarouselController@edit');
+Route::get('/carousel/show','CarouselController@show');
