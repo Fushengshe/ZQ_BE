@@ -18,3 +18,8 @@ Route::post('/carousel/add','CarouselController@add');
 Route::delete('/carousel/del','CarouselController@del');
 Route::post('/carousel/edit','CarouselController@edit');
 Route::get('/carousel/show','CarouselController@show');
+
+Route::post('/poetrysociety/add','PoetrySocietyController@add');
+Route::delete('/poetrysociety/del','PoetrySocietyController@del');
+Route::post('/poetrysociety/edit','PoetrySocietyController@edit');
+Route::get('/poetrysociety/show','PoetrySocietyController@show');
