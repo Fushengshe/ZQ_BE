@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\Db;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
@@ -11,7 +11,7 @@ class Comment extends Model
     {
         $created_at = time();
         $data['created_at'] = $created_at;
-        $db = Db::table('comment')
+        $db = DB::table('comment')
             ->insertGetId($data);
         if (!$db -> isEmpty()){
             $msg['code'] = 0;
@@ -29,11 +29,12 @@ class Comment extends Model
 
     public function show($data)
     {
-        $comments = Db::table('comment')
+        $comments = DB::table('comment')
             ->where( 'uid' , 0 )
             ->where('article_id',$data['article_id'])
             ->orderBy('created_at')
             ->get();
+        $res = array();
         if (!$comments -> isEmpty())
         {
             for ($i = 0 ; $i < sizeof($comments) ; $i++)
@@ -41,28 +42,25 @@ class Comment extends Model
                 $res[$i]['comment'] = $comments[$i] -> comment;
                 $res[$i]['created_at'] = date('Y-m-d H:m',($comments[$i] -> created_at));
                 $res[$i]['id'] = $comments[$i] -> id;
-                $comment = Db::table('comment')
+                $comment = DB::table('comment')
                     ->where('uid' , ($comments[$i] -> id))
                     ->get();
-                if(!$comment -> isEmpty()){
-                    if (sizeof($comment) > 2) {
-                        for($j = 0 ; $j < 2 ; $j++)
-                        {
-                            $res[$i]['childComment'][$j]['comment'] = $comment[$j] -> comment;
-                            $res[$i]['childComment'][$j]['id'] = $comment[$j] -> id;
-                            $res[$i]['childComment'][$j]['created_at'] = $comment[$j] -> created_at;
-                        }
-                    } else {
-                        for($j = 0 ; $j < sizeof($comment) ; $j++)
-                        {
-                            $res[$i]['childComment'][$j]['comment'] = $comment[$j] -> comment;
-                            $res[$i]['childComment'][$j]['id'] = $comment[$j] -> id;
-                            $res[$i]['childComment'][$j]['created_at'] = $comment[$j] -> created_at;
-                        }
+                if (sizeof($comment) > 2) {
+                    for($j = 0 ; $j < 2 ; $j++)
+                    {
+                        $res[$i]['childComment'][$j]['comment'] = $comment[$j] -> comment;
+                        $res[$i]['childComment'][$j]['id'] = $comment[$j] -> id;
+                        $res[$i]['childComment'][$j]['created_at'] = $comment[$j] -> created_at;
+                    }
+                } else {
+                    for($j = 0 ; $j < sizeof($comment) ; $j++)
+                    {
+                        $res[$i]['childComment'][$j]['comment'] = $comment[$j] -> comment;
+                        $res[$i]['childComment'][$j]['id'] = $comment[$j] -> id;
+                        $res[$i]['childComment'][$j]['created_at'] = $comment[$j] -> created_at;
                     }
                 }
             }
-            return ;
             $msg['code'] = 0;
             $msg['msg'] = $res;
             return $msg;
@@ -77,7 +75,7 @@ class Comment extends Model
 
     public function more($data)
     {
-        $db = Db::table('comment')
+        $db = DB::table('comment')
             ->where('uid',$data['uid'])
             ->get();
         if (!$db -> isEmpty()) {

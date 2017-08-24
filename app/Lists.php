@@ -101,16 +101,40 @@ class Lists extends Model
 
     }
 
+    public function edit($data)
+    {
+        $res = Lists::where('id',$data['id'])
+            ->get();
+
+        if ( sizeof($res) != 0) {
+            $db = Lists::where('id' , $data['id'])
+                ->update($data);
+            if ($db) {
+                $msg['code'] = 0;
+                $msg['msg'] = '更改成功';
+                return $msg;
+            } else {
+                $err_msg['code'] = 3;
+                $err_msg['msg'] = '操作失败，请重试';
+                return $err_msg;
+            }
+        } else {
+            $err_msg['code'] = 2;
+            $err_msg['msg'] = '被修改的栏目不存在';
+            return $err_msg;
+        }
+    }
+
     public function add($data)
     {
         $max = Lists::where('uid',0)
             ->max('order');
         if ($data['uid'] == 0){
             return $this -> addFa($data);
-        }elseif ($data['uid'] > 0 && $data['uid'] <= $max)
+        } elseif ($data['uid'] > 0 && $data['uid'] <= $max)
         {
             return $this -> addSon($data);
-        }else{
+        } else {
             $err_msg['code'] = 2;
             $err_msg['msg'] = '父栏目不存在';
             return $err_msg;

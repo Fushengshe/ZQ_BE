@@ -58,7 +58,7 @@ class ArticleController extends Controller
             }
             $data = $request ->all();
             $add = new Article();
-            $msg = $add -> showHeader($data);
+            $msg = $add -> del($data);
             return $msg;
         }
     }

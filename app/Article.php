@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\Db;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -12,7 +12,7 @@ class Article extends Model
     {
         $created_at = time();
         $data['created_at'] = $created_at;
-        $id = Db::table('article')
+        $id = DB::table('article')
             ->insertGetId($data);
         if ($id) {
             $msg['code'] = 0;
@@ -28,15 +28,17 @@ class Article extends Model
 
     public function del($data)
     {
-        $db = Db::table('article')
+        $db = DB::table('article')
             ->where('id',$data['id'])
             ->delete();
         if(!$db -> isEmpty()){
             $msg['code'] = 0;
             $msg['msg'] = '删除文章成功';
+            return $msg;
         }else{
             $err_msg['code'] = 2;
-            $err_msg['msg'] = '删除文章失败，请重试';
+            $err_msg['msg'] = '该文章已被删除';
+            return $err_msg;
         }
 
     }
@@ -45,7 +47,16 @@ class Article extends Model
     {
         $created_at = time();
         $data['created_at'] = $created_at;
-        $db = Db::table('article')
+        $list = DB::table('lists')
+            ->where('id',$data['list_id'])
+            ->get();
+        if(sizeof($list) != 0)
+        {
+            $err_msg['code'] = 2;
+            $err_msg['msg'] = '目标栏目不存在，请重试';
+            return $err_msg;
+        }
+        $db = DB::table('article')
             ->where('id',$data['id'])
             ->update($data);
         if ($db) {
@@ -54,14 +65,15 @@ class Article extends Model
             $msg['msg'] = '修改文章成功';
             return $msg;
         }else{
-            $err_msg['code'] = 2;
+            $err_msg['code'] = 3;
             $err_msg['msg'] = '修改文章失败，请重试';
+            return $err_msg;
         }
     }
 
     public function show($data)
     {
-        $db = Db::table('article')
+        $db = DB::table('article')
             ->where('id',$data['id'])
             ->get();
         if (!$db -> isEmpty()) {
@@ -83,7 +95,7 @@ class Article extends Model
 
     public function showHeader($data)
     {
-        $db = Db::table('article')
+        $db = DB::table('article')
             ->where('list_id',$data['list_id'])
             ->orderBy('created_at','desc')
             ->select('title','id')
@@ -94,14 +106,14 @@ class Article extends Model
             {
                 for($i = 0 ; $i < 6 ; $i++)
                 {
-                    $msg[$i]['title'] = $db[$i]->title;
-                    $msg[$i]['id'] = $db[$i]->id;
+                    $msg['title'][$i]['title'] = $db[$i]->title;
+                    $msg['title'][$i]['id'] = $db[$i]->id;
                 }
             } else {
                 for($i = 0 ; $i < sizeof($db) ; $i++)
                 {
-                    $msg[$i]['title'] = $db[$i]->title;
-                    $msg[$i]['id'] = $db[$i]->id;
+                    $msg['title'][$i]['title'] = $db[$i]->title;
+                    $msg['title'][$i]['id'] = $db[$i]->id;
                 }
             }
             return $msg;
@@ -115,7 +127,7 @@ class Article extends Model
 
     public function More($data)
     {
-        $db = Db::table('article')
+        $db = DB::table('article')
             ->where('list_id',$data['list_id'])
             ->orderBy('created_at','desc')
             ->select('title','id')
