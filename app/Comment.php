@@ -80,6 +80,14 @@ class Comment extends Model
             ->get();
         if (!$db -> isEmpty()) {
             for($i = 0 ; $i < sizeof($db) ; $i++){
+                $name = Db::table('users')
+                    ->where('id',( $db[$i] -> user_id ))
+                    ->get();
+                if(!$name -> isEmpty()){
+                    $res[$i]['user_name'] = $name[0] -> username;
+                }else{
+                    $res[$i]['user_name'] = '匿名用户';
+                }
                 $res[$i]['comment'] = $db[$i] -> comment;
                 $res[$i]['id'] = $db[$i] -> id;
             }
