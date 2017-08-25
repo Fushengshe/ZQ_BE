@@ -1151,10 +1151,12 @@ uid(string) |  父评论id | 1
 {
     "code": 1,
     "msg": "父评论d 为必填项"
+    "username" : "xxx"
 }
 {
     "code": 2,
     "msg": "操作失败，请重试”
+     "username" : "xxx"
 }
  ```
 
