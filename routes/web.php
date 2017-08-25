@@ -24,7 +24,10 @@ Route::delete('/poetrysociety/del','PoetrySocietyController@del')->middleware('d
 Route::post('/poetrysociety/edit','PoetrySocietyController@edit')->middleware('domain');
 Route::get('/poetrysociety/show','PoetrySocietyController@show')->middleware('domain');
 
-
+Route::post('/register','Auth\RegisterController@register')->middleware('domain');
+Route::get('/email','\App\Mail\Email@email')->middleware('domain');
+Route::post('/login','Auth\LoginController@login')->middleware('domain');
+Route::get('/check','Auth\LoginController@check')->middleware('domain');
 
 
 Route::get('/showlists','ListController@showLists')->middleware('domain');

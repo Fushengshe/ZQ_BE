@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -25,15 +28,64 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+//    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+//    public function __construct()
+//    {
+//        $this->middleware('guest')->except('logout');
+//    }
+    public function check(Request $request)
     {
-        $this->middleware('guest')->except('logout');
+        $user = User::where('email',$request->email)->first();
+        if($user->token_exp > time()){
+            $user->token_exp = time() + 86400;
+            return json_encode(['code'=>90001,'msg'=>'token验证成功，time_out刷新成功，可以获取接口信息']);
+        }else{
+            return json_encode(['code'=>90003,'msg'=>'token长时间未使用而过期，需重新登陆']);
+        }
+    }
+    public function setToken($email){
+        $user = User::where('email',$email)->first();
+        $token = sha1(md5($user->phone . time()));
+        $user->token = $token;
+        $user->token_exp = time()+86400;
+        if($user->save()){
+            return json_encode(['code'=>0,'msg'=>'登录成功']);
+        }else{
+            return json_encode(['code'=>3,'msg'=>'登录失败']);
+        }
+    }
+
+
+    public function login(Request $request)
+    {
+        if ($email = $request->email){
+            if($user = User::where('email',$email)->first()){
+                $password = $request->password;
+                if (Hash::check($password, $user->password)){
+                    return $this->setToken($email);
+                }else{
+                    return json_encode(['code'=>1,'msg'=>'密码错误']);
+                }
+            }else{
+                return json_encode(['code'=>2,'msg'=>'用户名或密码错误']);
+            }
+        }else if ($phone = $request->phone){
+            if ($user = User::where('phone',$phone)->first()){
+                $password = $request->password;
+                if (Hash::check($password, $user->password)){
+                    return $this->setToken($email);
+                }else{
+                    return json_encode(['code'=>1,'msg'=>'密码错误']);
+                }
+            }else{
+                return json_encode(['code'=>2,'msg'=>'用户名或密码错误']);
+            }
+        }
     }
 }

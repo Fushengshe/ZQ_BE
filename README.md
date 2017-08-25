@@ -1,5 +1,147 @@
 # 青年诗词楹联网
 
+## 用户登陆注册
+
+### 用户注册
+
+#### 用户注册（发送验证码）
+
+> http://www.thmaoqiu.cn/poetry/public/index.php/email
+
+数据传输方式：GET
+
+数据传输格式为：JSON
+
+
+参数(类型) | 说明 | 示例
+----|------|----
+email(string) | 传入邮箱  | 1822023868@qq.com
+
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "验证码为018385"
+}
+ ```
+
+验证失败无返回值
+
+#### 用户注册（确认验证码后注册）
+
+> http://www.thmaoqiu.cn/poetry/public/index.php/register
+
+数据传输方式：POST
+
+数据传输格式为：JSON
+
+
+参数(类型) | 说明 | 示例
+----|------|----
+email(string) | 传入邮箱  | 1822023868@qq.com
+phone(string) | 传入电话号码 | 15076067012
+username(string) | 传入用户名  | maoqiu
+password(string) | 传入密码  | maoqiu123456.
+portrait(string) | 传入用户头像  | C:\xampp\tmp\phpC6D5.tmp
+
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "注册成功"
+}
+ ```
+
+验证失败返回
+例1：
+ ```json
+{
+    "code": 1,
+    "msg": "The email has already been taken."
+}
+ ```
+ 例2：
+  ```json
+{
+    "code": 1,
+    "msg": "The email field is required."
+}
+ ```
+ 注：这里返回的值是变化的
+
+### 用户登录
+ 
+ #### 验证token
+ 
+  > http://www.thmaoqiu.cn/poetry/public/index.php/check
+  
+   数据传输方式：GET
+   
+   数据传输格式为：JSON
+   
+   参数(类型) | 说明 | 示例
+   ----|------|----
+   email(string) | 传入邮箱或手机  | 1822023868
+   phone(string) | 传入手机或邮箱  | 15076067012
+   
+  验证成功返回
+   ```json
+{
+    "code": 90001,
+    "msg": "token验证成功"
+}
+   ```
+  
+  验证失败返回
+   ```json
+  {
+      "code": 90003,
+      "msg": "token长时间未使用而过期，需重新登陆"
+  }
+   ```
+ 
+ #### 用户登录
+ 
+ > http://www.thmaoqiu.cn/poetry/public/index.php/login
+ 
+ 数据传输方式：POST
+ 
+ 数据传输格式为：JSON
+ 
+ 参数(类型) | 说明 | 示例
+ ----|------|----
+ email(string) | 传入邮箱或手机  | 1822023868
+ phone(string) | 传入手机或邮箱  | 15076067012
+ password(string) | 传入密码 | xxxxxxxxxxxxx
+ 
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "登陆成功"
+}
+ ```
+
+验证失败返回
+ ```json
+{
+    "code": 1,
+    "msg": "密码错误"
+}
+ ```
+ ```json
+ {
+     "code": 2,
+     "msg": "用户名或密码错误"
+ }
+ ```
+```json
+   {
+       "code": 3,
+       "msg": "登录失败"
+   }
+```
+  
 ## 轮播图
 
 ### 添加轮播图

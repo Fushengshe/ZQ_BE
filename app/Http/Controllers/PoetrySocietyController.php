@@ -14,12 +14,12 @@ class PoetrySocietyController
 {
     public function add(Request $request){
         $poetrysociety = new PoetrySociety();
-        return $poetrysociety->add(intval($request->id),$request->url,$request->name);
+        return $poetrysociety->add(intval($request->id),$request->order,$request->url,$request->name);
     }
 
     public function edit(Request $request){
         $poetrysociety = new PoetrySociety();
-        return $poetrysociety->edit(intval($request->id),$request->url,$request->name);
+        return $poetrysociety->edit(intval($request->id),$request->order,$request->url,$request->name);
     }
 
     public function del(Request $request){
