@@ -15,12 +15,14 @@ class CommentController extends Controller
                 'comment' => 'required',
                 'uid' => 'required',
                 'article_id' => 'required',
+                'user_id' => 'required',
             ], [
                 'required' => ':attribute 为必填项',
             ], [
                 'comment' => '评论',
                 'uid' => '父评论',
-                'article_id' => '文章id'
+                'article_id' => '文章id',
+                'user_id' => '用户id',
             ]);
             if ($validator -> fails()) {
                 $err_msg['code'] = 1;
