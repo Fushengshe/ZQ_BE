@@ -14,12 +14,12 @@ class CarouselController extends Controller
 {
     public function add(Request $request){
         $carousel = new Carousel;
-        return $carousel->add(intval($request->id),$request->order,$request->url);
+        return $carousel->add(intval($request->id),$request->order,$request->file('img'));
     }
 
     public function edit(Request $request){
         $carousel = new Carousel;
-        return $carousel->edit(intval($request->id),$request->order,$request->url);
+        return $carousel->edit(intval($request->id),$request->order,$request->file('img'));
     }
 
     public function del(Request $request){

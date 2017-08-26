@@ -53,7 +53,6 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'username' => 'required',
             'email' => 'required|email|unique:users',
-            'phone' => 'required|unique:users',
         ]);
     }
 
@@ -71,9 +70,9 @@ class RegisterController extends Controller
             $data = [
                 'username' => $request->username,
                 'email' => $request->email,
-                'phone' => $request->phone,
                 'password' => bcrypt($request->password),
                 'portrait' => $request->portrait,
+                'power' => 0,
             ];
             if (User::create($data)) {
                 return json_encode(['code' => 0, 'msg' => '注册成功']);
@@ -83,7 +82,27 @@ class RegisterController extends Controller
         } else {
             return json_encode(['code' => 1, 'msg' => $errors]);
         }
+    }
 
+    protected function adminRegister(Request $request){
+        $validator = $this->validator($request->all());
+        $errors = $validator->errors()->first();
+        if (empty($errors)) {
+            $data = [
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'portrait' => $request->portrait,
+                'power' => 1,
+            ];
+            if (User::create($data)) {
+                return json_encode(['code' => 0, 'msg' => '管理员注册成功']);
+            } else {
+                return json_encode(['code' => 2, 'msg' => '注册失败请稍后再试']);
+            }
+        } else {
+            return json_encode(['code' => 1, 'msg' => $errors]);
+        }
     }
 
 

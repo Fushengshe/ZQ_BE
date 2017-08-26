@@ -14,34 +14,18 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::post('/carousel/add','CarouselController@add')->middleware('domain');
-Route::delete('/carousel/del','CarouselController@del')->middleware('domain');
-Route::post('/carousel/edit','CarouselController@edit')->middleware('domain');
-Route::get('/carousel/show','CarouselController@show')->middleware('domain');
+Route::post('/carousel/add','CarouselController@add');
+Route::delete('/carousel/del','CarouselController@del');
+Route::post('/carousel/edit','CarouselController@edit');
+Route::get('/carousel/show','CarouselController@show');
 
-Route::post('/poetrysociety/add','PoetrySocietyController@add')->middleware('domain');
-Route::delete('/poetrysociety/del','PoetrySocietyController@del')->middleware('domain');
-Route::post('/poetrysociety/edit','PoetrySocietyController@edit')->middleware('domain');
-Route::get('/poetrysociety/show','PoetrySocietyController@show')->middleware('domain');
+Route::post('/poetrysociety/add','PoetrySocietyController@add');
+Route::delete('/poetrysociety/del','PoetrySocietyController@del');
+Route::post('/poetrysociety/edit','PoetrySocietyController@edit');
+Route::get('/poetrysociety/show','PoetrySocietyController@show');
 
-Route::post('/register','Auth\RegisterController@register')->middleware('domain');
-Route::get('/email','\App\Mail\Email@email')->middleware('domain');
-Route::post('/login','Auth\LoginController@login')->middleware('domain');
-Route::get('/check','Auth\LoginController@check')->middleware('domain');
-
-
-Route::get('/showlists','ListController@showLists')->middleware('domain');
-Route::get('/addlists','ListController@addLists')->middleware('domain');
-Route::get('/dellists','ListController@delLists')->middleware('domain');
-Route::get('/editlists','ListController@editLists')->middleware('domain');
-
-Route::post('/addart','ArticleController@addArt')->middleware('domain');
-Route::post('/editart','ArticleController@editArt')->middleware('domain');
-Route::get('/delart','ArticleController@delArt')->middleware('domain');
-Route::get('/showart','ArticleController@showArt')->middleware('domain');
-Route::get('/showtitle','ArticleController@showTitle')->middleware('domain');
-Route::get('/showmore','ArticleController@showMore')->middleware('domain');
-
-Route::get('/addcomment','CommentController@addComment')->middleware('domain');
-Route::get('/showcomment','CommentController@showComment')->middleware('domain');
-Route::get('/morecomment','CommentController@moreComment')->middleware('domain');
+Route::post('/register','Auth\RegisterController@register');
+Route::post('/admin/register','Auth\RegisterController@adminRegister');
+Route::get('/email','\App\Mail\Email@email');
+Route::post('/login','Auth\LoginController@login');
+Route::get('/check','Auth\LoginController@check');

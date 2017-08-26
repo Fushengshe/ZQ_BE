@@ -20,5 +20,6 @@ class VerifyCsrfToken extends BaseVerifier
         '/poetrysociety/edit',
         '/register',
         '/login',
+        '/admin/register',
     ];
 }

@@ -12,16 +12,18 @@ use Illuminate\Database\Eloquent\Model;
 class PoetrySociety extends Model
 {
     protected $table = 'poetry_societys';
-    public function add($id,$url,$name){
+    public function add($id,$order,$img,$name){
         $poetrysociety = new PoetrySociety();
-        if (!$url){
+        if (!$img){
             return json_encode(['code'=>2,'msg'=>'请插入诗词社图片']);
         }
         if ($poetrysociety->find($id)){
             return json_encode(['code'=>3,'msg'=>'该诗词社id已存在']);
         }
+        $path = $img->storeAs('poetrysocietys', $id.'.jpg');
         $poetrysociety->id = $id;
-        $poetrysociety->url = $url;
+        $poetrysociety->order = $order;
+        $poetrysociety->url = 'storage/app/'.$path;
         $poetrysociety->name = $name;
         if ($poetrysociety->save()){
             return json_encode(['code'=>0,'msg'=>'成功添加一个诗词社']);
@@ -30,12 +32,14 @@ class PoetrySociety extends Model
         }
     }
 
-    public function edit($id,$url,$name){
-        if (!$url){
+    public function edit($id,$order,$img,$name){
+        if (!$img){
             return json_encode(['code'=>2,'msg'=>'请插入诗词社图片']);
         }
+        $path = $img->storeAs('poetrysocietys', $id.'.jpg');
         $poetrysociety = PoetrySociety::find($id);
-        $poetrysociety->url = $url;
+        $poetrysociety->order = $order;
+        $poetrysociety->url = 'storage/app/'.$path;
         $poetrysociety->name = $name;
         if ($poetrysociety->save()){
             return json_encode(['code'=>0,'msg'=>'成功修改一个诗词社']);

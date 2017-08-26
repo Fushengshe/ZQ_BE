@@ -51,7 +51,7 @@ class LoginController extends Controller
     }
     public function setToken($email){
         $user = User::where('email',$email)->first();
-        $token = sha1(md5($user->phone . time()));
+        $token = sha1(md5($user->username . time()));
         $user->token = $token;
         $user->token_exp = time()+86400;
         if($user->save()){
@@ -66,17 +66,6 @@ class LoginController extends Controller
     {
         if ($email = $request->email){
             if($user = User::where('email',$email)->first()){
-                $password = $request->password;
-                if (Hash::check($password, $user->password)){
-                    return $this->setToken($email);
-                }else{
-                    return json_encode(['code'=>1,'msg'=>'密码错误']);
-                }
-            }else{
-                return json_encode(['code'=>2,'msg'=>'用户名或密码错误']);
-            }
-        }else if ($phone = $request->phone){
-            if ($user = User::where('phone',$phone)->first()){
                 $password = $request->password;
                 if (Hash::check($password, $user->password)){
                     return $this->setToken($email);
