@@ -152,7 +152,7 @@ power(int) | 传入权限  | 1
  
  参数(类型) | 说明 | 示例
  ----|------|----
- email(string) | 传入邮箱或手机  | 1822023868@qq.com
+ email(string) | 传入邮箱  | 1822023868@qq.com
  password(string) | 传入密码 | xxxxxxxxxxxxx
  
 验证成功返回 
@@ -182,6 +182,60 @@ power(int) | 传入权限  | 1
        "msg": "登录失败"
    }
 ```
+
+ ### 忘记密码
+ 
+ #### 验证邮箱
+ 
+ > http://www.thmaoqiu.cn/poetry/public/index.php/forgot/email
+ 
+ 数据传输方式：GET
+ 
+ 数据传输格式为：JSON
+ 
+ 参数(类型) | 说明 | 示例
+ ----|------|----
+ email(string) | 传入邮箱 | 1822023868@qq.com
+ 
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "验证码为641855"
+}
+ ```
+
+验证失败无返回
+
+#### 重置密码
+
+ > http://www.thmaoqiu.cn/poetry/public/index.php/forgot/password
+ 
+ 数据传输方式：POST
+ 
+ 数据传输格式为：JSON
+ 
+ 参数(类型) | 说明 | 示例
+ ----|------|----
+ email(string) | 传入邮箱 | 1822023868@qq.com
+ newpassword(string) | 传入新密码 | XXXXXXXXX
+ 
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "修改密码成功"
+}
+ ```
+
+验证失败返回
+ ```json
+{
+    "code": 1,
+    "msg": "修改密码失败，请稍后再试"
+}
+ ```
+
   
 ## 轮播图
 

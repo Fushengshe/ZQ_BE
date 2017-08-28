@@ -27,5 +27,8 @@ Route::get('/poetrysociety/show','PoetrySocietyController@show');
 Route::post('/register','Auth\RegisterController@register');
 Route::post('/admin/register','Auth\RegisterController@adminRegister');
 Route::get('/email','\App\Mail\Email@email');
+Route::get('/forgot/email','\App\Mail\ForgotPasswordEmail@email');
+Route::post('/forgot/password','Auth\ForgotPasswordController@forgotPassword');
 Route::post('/login','Auth\LoginController@login');
 Route::get('/check','Auth\LoginController@check');
+

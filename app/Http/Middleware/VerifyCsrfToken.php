@@ -21,5 +21,6 @@ class VerifyCsrfToken extends BaseVerifier
         '/register',
         '/login',
         '/admin/register',
+        '/forgot/password',
     ];
 }
