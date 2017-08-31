@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
+use App\User;
 
 class ForgotPasswordController extends Controller
 {
@@ -25,8 +27,16 @@ class ForgotPasswordController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function forgotPassword(Request $request)
     {
-        $this->middleware('guest');
+        $email = $request->email;
+        $user = User::where('email',$email)->first();
+        $user->password = $request->newpassword;
+        if ($user->save()) {
+            return json_encode(['code' => 0, 'msg' => '修改密码成功']);
+        } else {
+            return json_encode(['code' => 1, 'msg' => '修改密码失败，请稍后再试']);
+        }
     }
+
 }

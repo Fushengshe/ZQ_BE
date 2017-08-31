@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Order;
+use App\Mail\OrderShipped;
 
 class RegisterController extends Controller
 {
@@ -27,17 +30,17 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+//    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('guest');
+//    }
 
     /**
      * Get a validator for an incoming registration request.
@@ -48,9 +51,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'username' => 'required',
+            'email' => 'required|email|unique:users',
         ]);
     }
 
@@ -60,12 +62,49 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function register(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $validator = $this->validator($request->all());
+        $errors = $validator->errors()->first();
+        if (empty($errors)) {
+            $data = [
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'portrait' => $request->portrait,
+                'power' => 0,
+            ];
+            if (User::create($data)) {
+                return json_encode(['code' => 0, 'msg' => '注册成功']);
+            } else {
+                return json_encode(['code' => 2, 'msg' => '注册失败请稍后再试']);
+            }
+        } else {
+            return json_encode(['code' => 1, 'msg' => $errors]);
+        }
     }
+
+    protected function adminRegister(Request $request){
+        $validator = $this->validator($request->all());
+        $errors = $validator->errors()->first();
+        if (empty($errors)) {
+            $data = [
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'portrait' => $request->portrait,
+                'power' => 1,
+            ];
+            if (User::create($data)) {
+                return json_encode(['code' => 0, 'msg' => '管理员注册成功']);
+            } else {
+                return json_encode(['code' => 2, 'msg' => '注册失败请稍后再试']);
+            }
+        } else {
+            return json_encode(['code' => 1, 'msg' => $errors]);
+        }
+    }
+
+
+
 }

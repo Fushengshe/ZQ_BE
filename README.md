@@ -1,5 +1,242 @@
 # 青年诗词楹联网
 
+## 用户登陆注册
+
+### 用户注册
+
+#### 用户注册（发送验证码）
+
+> http://www.thmaoqiu.cn/poetry/public/index.php/email
+
+数据传输方式：GET
+
+数据传输格式为：JSON
+
+
+参数(类型) | 说明 | 示例
+----|------|----
+email(string) | 传入邮箱  | 1822023868@qq.com
+
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "验证码为018385"
+}
+ ```
+
+验证失败无返回值
+
+#### 普通用户注册（确认验证码后注册）
+
+> http://www.thmaoqiu.cn/poetry/public/index.php/register
+
+数据传输方式：POST
+
+数据传输格式为：JSON
+
+
+参数(类型) | 说明 | 示例
+----|------|----
+email(string) | 传入邮箱  | 1822023868@qq.com
+username(string) | 传入用户名  | maoqiu
+password(string) | 传入密码  | maoqiu123456.
+portrait(string) | 传入用户头像  | C:\xampp\tmp\phpC6D5.tmp
+power(int) | 传入权限  | 0
+
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "注册成功"
+}
+ ```
+
+验证失败返回
+例1：
+ ```json
+{
+    "code": 1,
+    "msg": "The email has already been taken."
+}
+ ```
+ 例2：
+  ```json
+{
+    "code": 1,
+    "msg": "The email field is required."
+}
+ ```
+ 注：这里返回的值是变化的
+
+#### Admin注册（确认验证码后注册）
+
+> http://www.thmaoqiu.cn/poetry/public/index.php/admin/register
+
+数据传输方式：POST
+
+数据传输格式为：JSON
+
+
+参数(类型) | 说明 | 示例
+----|------|----
+email(string) | 传入邮箱  | 1822023868@qq.com
+username(string) | 传入用户名  | maoqiu
+password(string) | 传入密码  | maoqiu123456.
+portrait(string) | 传入用户头像  | C:\xampp\tmp\phpC6D5.tmp
+power(int) | 传入权限  | 1
+
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "管理员注册成功"
+}
+ ```
+
+验证失败返回
+例1：
+ ```json
+{
+    "code": 1,
+    "msg": "The email has already been taken."
+}
+ ```
+ 例2：
+  ```json
+{
+    "code": 1,
+    "msg": "The email field is required."
+}
+ ```
+ 注：这里返回的值是变化的
+ 
+ 
+### 用户登录
+ 
+ #### 验证token
+ 
+  > http://www.thmaoqiu.cn/poetry/public/index.php/check
+  
+   数据传输方式：GET
+   
+   数据传输格式为：JSON
+   
+   参数(类型) | 说明 | 示例
+   ----|------|----
+   email(string) | 传入邮箱  | 1822023868@qq.com
+   
+  验证成功返回
+   ```json
+{
+    "code": 90001,
+    "msg": "token验证成功"
+}
+   ```
+  
+  验证失败返回
+   ```json
+  {
+      "code": 90003,
+      "msg": "token长时间未使用而过期，需重新登陆"
+  }
+   ```
+ 
+ #### 用户登录
+ 
+ > http://www.thmaoqiu.cn/poetry/public/index.php/login
+ 
+ 数据传输方式：POST
+ 
+ 数据传输格式为：JSON
+ 
+ 参数(类型) | 说明 | 示例
+ ----|------|----
+ email(string) | 传入邮箱  | 1822023868@qq.com
+ password(string) | 传入密码 | xxxxxxxxxxxxx
+ 
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "登陆成功"
+}
+ ```
+
+验证失败返回
+ ```json
+{
+    "code": 1,
+    "msg": "密码错误"
+}
+ ```
+ ```json
+ {
+     "code": 2,
+     "msg": "用户名或密码错误"
+ }
+ ```
+```json
+   {
+       "code": 3,
+       "msg": "登录失败"
+   }
+```
+
+ ### 忘记密码
+ 
+ #### 验证邮箱
+ 
+ > http://www.thmaoqiu.cn/poetry/public/index.php/forgot/email
+ 
+ 数据传输方式：GET
+ 
+ 数据传输格式为：JSON
+ 
+ 参数(类型) | 说明 | 示例
+ ----|------|----
+ email(string) | 传入邮箱 | 1822023868@qq.com
+ 
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "验证码为641855"
+}
+ ```
+
+验证失败无返回
+
+#### 重置密码
+
+ > http://www.thmaoqiu.cn/poetry/public/index.php/forgot/password
+ 
+ 数据传输方式：POST
+ 
+ 数据传输格式为：JSON
+ 
+ 参数(类型) | 说明 | 示例
+ ----|------|----
+ email(string) | 传入邮箱 | 1822023868@qq.com
+ newpassword(string) | 传入新密码 | XXXXXXXXX
+ 
+验证成功返回 
+ ```json
+{
+    "code": 0,
+    "msg": "修改密码成功"
+}
+ ```
+
+验证失败返回
+ ```json
+{
+    "code": 1,
+    "msg": "修改密码失败，请稍后再试"
+}
+ ```
+
+  
 ## 轮播图
 
 ### 添加轮播图
@@ -14,7 +251,8 @@
 参数(类型) | 说明 | 示例
 ----|------|----
 id(int) | 传入id,可选  | 3
-url(string) | 传入图片的url | http://otq91javs.bkt.clouddn.com/im1.jpg
+order(int) | 传入轮播图序号  | 1
+img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
 
 验证成功返回 
  ```json
@@ -55,7 +293,8 @@ url(string) | 传入图片的url | http://otq91javs.bkt.clouddn.com/im1.jpg
 参数(类型) | 说明 | 示例
 ----|------|----
 id(int) | 传入id  | 3
-url(string) | 传入图片的url | http://otq91javs.bkt.clouddn.com/im1.jpg
+order(int) | 传入轮播图序号  | 1
+img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
 
 验证成功返回 
  ```json
@@ -123,18 +362,22 @@ id(int) | 传入id  | 3
       "data": [
           {
               "id": 1,
+              "order": 1,
               "url": "http://otq91javs.bkt.clouddn.com/im1.jpg"
           },
           {
               "id": 3,
+              "order": 2,
               "url": "http://otq91javs.bkt.clouddn.com/im1.jpg"
           },
           {
               "id": 4,
+              "order": 3,
               "url": "C:\\xampp\\tmp\\php276D.tmp"
           },
           {
               "id": 5,
+              "order": 4,
               "url": "C:\\xampp\\tmp\\php4F05.tmp"
           }
       ]
@@ -160,7 +403,8 @@ id(int) | 传入id  | 3
 参数(类型) | 说明 | 示例
 ----|------|----
 id(int) | 传入id,可选  | 3
-url(string) | 传入图片的url | http://otq91javs.bkt.clouddn.com/im1.jpg
+order(int) | 传入诗词社序号  | 1
+img(file) | 传入图片 | http://otq91javs.bkt.clouddn.com/im1.jpg
 name(string) | 传入desc,诗词社的名字  | 诗词社
 
 验证成功返回 
@@ -201,7 +445,8 @@ name(string) | 传入desc,诗词社的名字  | 诗词社
 参数(类型) | 说明 | 示例
 ----|------|----
 id(int) | 传入id  | 3
-url(string) | 传入图片的url | http://otq91javs.bkt.clouddn.com/im1.jpg
+order(int) | 传入诗词社序号  | 1
+img(file) | 传入图片 | http://otq91javs.bkt.clouddn.com/im1.jpg
 name(string) | 传入desc,诗词社的名字  | 诗词社
 
 验证成功返回 
@@ -269,21 +514,25 @@ id(int) | 传入id  | 3
     "data": [
         {
             "id": 1,
+            "order": 1,
             "url": "http://otq91javs.bkt.clouddn.com/im1.jpg",
             "name": "诗词社"
         },
         {
             "id": 2,
+            "order": 2,
             "url": "http://otq91javs.bkt.clouddn.com/im1.jpg",
             "name": null
         },
         {
             "id": 3,
+            "order": 3,
             "url": "http://otq91javs.bkt.clouddn.com/im1.jpg",
             "name": null
         },
         {
             "id": 5,
+            "order": 4,
             "url": "http://otq91javs.bkt.clouddn.com/im1.jpg",
             "name": "诗词社"
         }
