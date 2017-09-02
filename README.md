@@ -17,7 +17,7 @@
 ----|------|----
 email(string) | 传入邮箱  | 1822023868@qq.com
 
-验证成功返回 
+发送成功返回 
  ```json
 {
     "code": 0,
@@ -25,7 +25,7 @@ email(string) | 传入邮箱  | 1822023868@qq.com
 }
  ```
 
-验证失败无返回值
+发送失败无返回值
 
 #### 普通用户注册（确认验证码后注册）
 
@@ -44,7 +44,7 @@ password(string) | 传入密码  | maoqiu123456.
 portrait(string) | 传入用户头像  | C:\xampp\tmp\phpC6D5.tmp
 power(int) | 传入权限  | 0
 
-验证成功返回 
+注册成功返回 
  ```json
 {
     "code": 0,
@@ -52,7 +52,7 @@ power(int) | 传入权限  | 0
 }
  ```
 
-验证失败返回
+注册失败返回
 例1：
  ```json
 {
@@ -86,7 +86,7 @@ password(string) | 传入密码  | maoqiu123456.
 portrait(string) | 传入用户头像  | C:\xampp\tmp\phpC6D5.tmp
 power(int) | 传入权限  | 1
 
-验证成功返回 
+注册成功返回 
  ```json
 {
     "code": 0,
@@ -94,7 +94,7 @@ power(int) | 传入权限  | 1
 }
  ```
 
-验证失败返回
+注册失败返回
 例1：
  ```json
 {
@@ -122,25 +122,29 @@ power(int) | 传入权限  | 1
    
    数据传输格式为：JSON
    
-   参数(类型) | 说明 | 示例
-   ----|------|----
-   email(string) | 传入邮箱  | 1822023868@qq.com
+   从cookie中验证token
    
   验证成功返回
-   ```json
+```json
 {
     "code": 90001,
     "msg": "token验证成功"
 }
-   ```
+```
   
   验证失败返回
-   ```json
+```json
   {
-      "code": 90003,
-      "msg": "token长时间未使用而过期，需重新登陆"
+      "code": 90002,
+      "msg": "token验证出错"
   }
-   ```
+```
+```json
+   {
+       "code": 90003,
+       "msg": "token长时间未使用而过期，需重新登陆"
+   }
+``` 
  
  #### 用户登录
  
@@ -155,7 +159,7 @@ power(int) | 传入权限  | 1
  email(string) | 传入邮箱  | 1822023868@qq.com
  password(string) | 传入密码 | xxxxxxxxxxxxx
  
-验证成功返回 
+登录成功将token存入cookie，并返回 
  ```json
 {
     "code": 0,
@@ -163,7 +167,7 @@ power(int) | 传入权限  | 1
 }
  ```
 
-验证失败返回
+登录失败返回
  ```json
 {
     "code": 1,
@@ -197,7 +201,7 @@ power(int) | 传入权限  | 1
  ----|------|----
  email(string) | 传入邮箱 | 1822023868@qq.com
  
-验证成功返回 
+发送成功返回 
  ```json
 {
     "code": 0,
@@ -205,7 +209,7 @@ power(int) | 传入权限  | 1
 }
  ```
 
-验证失败无返回
+发送失败无返回
 
 #### 重置密码
 
@@ -220,7 +224,7 @@ power(int) | 传入权限  | 1
  email(string) | 传入邮箱 | 1822023868@qq.com
  newpassword(string) | 传入新密码 | XXXXXXXXX
  
-验证成功返回 
+重置成功返回 
  ```json
 {
     "code": 0,
@@ -228,7 +232,7 @@ power(int) | 传入权限  | 1
 }
  ```
 
-验证失败返回
+重置失败返回
  ```json
 {
     "code": 1,
@@ -254,7 +258,7 @@ id(int) | 传入id,可选  | 3
 order(int) | 传入轮播图序号  | 1
 img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
 
-验证成功返回 
+添加成功返回 
  ```json
  {
      "code":0,
@@ -262,7 +266,7 @@ img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
  }
  ```
 
-验证失败返回
+添加失败返回
  ```json
  {
      "code":1,
@@ -296,7 +300,7 @@ id(int) | 传入id  | 3
 order(int) | 传入轮播图序号  | 1
 img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
 
-验证成功返回 
+修改成功返回 
  ```json
  {
      "code":0,
@@ -304,7 +308,7 @@ img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
  }
  ```
 
-验证失败返回
+修改失败返回
  ```json
  {
      "code":1,
@@ -407,7 +411,7 @@ order(int) | 传入诗词社序号  | 1
 img(file) | 传入图片 | http://otq91javs.bkt.clouddn.com/im1.jpg
 name(string) | 传入desc,诗词社的名字  | 诗词社
 
-验证成功返回 
+添加成功返回 
  ```json
 {
     "code": 0,
@@ -415,7 +419,7 @@ name(string) | 传入desc,诗词社的名字  | 诗词社
 }
  ```
 
-验证失败返回
+添加失败返回
  ```json
  {
      "code":1,
@@ -449,7 +453,7 @@ order(int) | 传入诗词社序号  | 1
 img(file) | 传入图片 | http://otq91javs.bkt.clouddn.com/im1.jpg
 name(string) | 传入desc,诗词社的名字  | 诗词社
 
-验证成功返回 
+修改成功返回 
  ```json
 {
     "code": 0,
@@ -457,7 +461,7 @@ name(string) | 传入desc,诗词社的名字  | 诗词社
 }
  ```
 
-验证失败返回
+修改失败返回
  ```json
 {
     "code": 1,
