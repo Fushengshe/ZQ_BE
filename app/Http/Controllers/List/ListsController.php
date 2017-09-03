@@ -9,6 +9,36 @@ use App\Lists;
 
 class ListController extends Controller
 {
+
+    public function store(Request $request)
+    {
+        $lists = new Lists();
+        $msg = $lists -> show();
+        return view('category.store',[
+            'item' => $msg['res']
+        ]);
+
+    }
+
+    public function index()
+    {
+        $lists = new Lists();
+        $msg = $lists -> show();
+        return view('category.index',[
+            'item' => $msg['res']
+        ]);
+
+    }
+
+    public function create()
+    {
+        $lists = new Lists();
+        $msg = $lists -> show();
+        return view('category.edit',[
+            'item' => $msg['res']
+        ]);
+    }
+
     public function showLists(Request $request)
     {
         if ($request -> isMethod('GET'))
@@ -22,7 +52,7 @@ class ListController extends Controller
 
     public function addLists(Request $request)
     {
-        if ($request -> isMethod('GET')) {
+        if ($request -> isMethod('POST')) {
             $validator = \Validator::make($request->input(), [
                 'column' => 'required',
                 'url' => 'required',
@@ -38,14 +68,20 @@ class ListController extends Controller
                 'uid' => '父级栏目'
             ]);
             if ($validator -> fails()){
-                $err_msg['code'] = 1;
-                $error = $validator -> errors();
-                $err_msg['msg'] = $error ->first();
-                return $err_msg;
+                return redirect()->back()->withErrors($validator)->withInput();
+//                $err_msg['code'] = 1;
+//                $error = $validator -> errors();
+//                $err_msg['msg'] = $error ->first();
+//                return $err_msg;
             }
             $data = $request ->all();
             $lists = new Lists();
             $msg = $lists -> add($data);
+            if ($msg['code'] == 0) {
+                return redirect()->back()->with('success',$msg['msg']);
+            } else {
+                return redirect()->back()->with('error',$msg['msg']);
+            }
             return $msg;
         }
 
@@ -67,14 +103,20 @@ class ListController extends Controller
                 'id' => '栏目id'
             ]);
             if ($validator -> fails()){
-                $err_msg['code'] = 1;
-                $error = $validator -> errors();
-                $err_msg['msg'] = $error ->first();
-                return $err_msg;
+                return redirect()->back()->withErrors($validator)->withInput();
+//                $err_msg['code'] = 1;
+//                $error = $validator -> errors();
+//                $err_msg['msg'] = $error ->first();
+//                return $err_msg;
             }
             $data = $request ->all();
             $lists = new Lists();
             $msg = $lists -> edit($data);
+            if ($msg['code'] == 0) {
+                return redirect()->back()->with('success',$msg['msg']);
+            } else {
+                return redirect()->back()->with('error',$msg['msg']);
+            }
             return $msg;
         }
 
@@ -101,7 +143,12 @@ class ListController extends Controller
             $data = $request ->all();
             $lists = new Lists();
             $msg = $lists -> del($data);
-            return $msg;
+            if ($msg['code'] == 0) {
+                return redirect()->back()->with('success',$msg['msg']);
+            } else {
+                return redirect()->back()->with('error',$msg['msg']);
+            }
+
         }
 
     }

@@ -32,6 +32,7 @@ class Lists extends Model
                     $data[$i]['childColumn'][$j]['url'] = $lists[$j]['url'];
                     $data[$i]['childColumn'][$j]['uid'] = $lists[$j]['uid'];
                     $data[$i]['childColumn'][$j]['order'] = $lists[$j]['order'];
+                    $data[$i]['childColumn'][$j]['id'] = $lists[$j]['id'];
                 }
             }
             $msg['code'] = 0;
@@ -214,6 +215,7 @@ class Lists extends Model
             return $err_msg;
         }
     }
+
 
 
 }

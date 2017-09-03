@@ -4,11 +4,33 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Article;
 
 
 class ArticleController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $perPage = 1;
+        $page = $request -> input("page",1)-1;
+        $total = DB::table('article')
+            ->groupBy('list_id')
+            ->count();
+        $items = DB::table('article')
+            ->groupBy('list_id')
+            ->skip($page*$perPage)
+            ->get();
+
+        $article = new LengthAwarePaginator($items , $total , $perPage);
+        $article -> withPath('indexart');
+        return view('article.index',[
+            'article' => $article
+        ]);
+    }
+
     public function addArt(Request $request)
     {
         if ($request -> isMethod('GET')) {

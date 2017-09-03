@@ -12,6 +12,25 @@ use App\Carousel;
 
 class CarouselController extends Controller
 {
+    public function index()
+    {
+        $carousel = new Carousel;
+        $item = $carousel->show();
+        dd($item);
+        return view('carousel.index',[
+            'item' => $item
+        ]);
+    }
+
+    public function create()
+    {
+        $carousel = new Carousel;
+        $item = $carousel->show();
+        return view('carousel.create',[
+            'item' => $item
+        ]);
+    }
+
     public function add(Request $request){
         $carousel = new Carousel;
         return $carousel->add(intval($request->id),$request->order,$request->file('img'));
