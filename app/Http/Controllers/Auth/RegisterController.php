@@ -66,12 +66,14 @@ class RegisterController extends Controller
     {
         $validator = $this->validator($request->all());
         $errors = $validator->errors()->first();
+        $portrait = $request->file('portrait');
+        $path = $portrait->storeAs('portraits', uniqid().'.jpg');
         if (empty($errors)) {
             $data = [
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'portrait' => $request->portrait,
+                'portrait' => '/usr/local/nginx/html/poetry/storage/app/'.$path,
                 'power' => 0,
             ];
             if (User::create($data)) {
@@ -87,12 +89,14 @@ class RegisterController extends Controller
     protected function adminRegister(Request $request){
         $validator = $this->validator($request->all());
         $errors = $validator->errors()->first();
+        $portrait = $request->file('portrait');
+        $path = $portrait->storeAs('portraits', uniqid().'.jpg');
         if (empty($errors)) {
             $data = [
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'portrait' => $request->portrait,
+                'portrait' => '/usr/local/nginx/html/poetry/storage/app/'.$path,
                 'power' => 1,
             ];
             if (User::create($data)) {

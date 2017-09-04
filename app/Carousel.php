@@ -6,19 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Carousel extends Model
 {
+    protected $hidden = [
+        'updated_at','created_at',
+    ];
     protected $table = 'carousels';
     public function add($id,$order,$img){
-        $carousel = new Carousel();
         if (!$img){
             return json_encode(['code'=>2,'msg'=>'请插入轮播图']);
         }
-        if ($carousel->find($id)){
+        if(Carousel::where('order',$order)->first()){
+            return json_encode(['code'=>4,'msg'=>'序号'.$order.'已存在']);
+        }
+        $carousel = new Carousel();
+        if ($carousel->first($id)){
             return json_encode(['code'=>3,'msg'=>'该轮播图id已存在']);
         }
-        $path = $img->storeAs('carousels', $id.'.jpg');
+        $path = $img->storeAs('carousels', uniqid().'.jpg');
         $carousel->id = $id;
         $carousel->order = $order;
-        $carousel->url = 'storage/app/'.$path;
+        $carousel->url = '/usr/local/nginx/html/poetry/storage/app/'.$path;
         if ($carousel->save()){
             return json_encode(['code'=>0,'msg'=>'成功添加一张轮播图']);
         }else{
@@ -30,10 +36,13 @@ class Carousel extends Model
         if (!$img){
             return json_encode(['code'=>2,'msg'=>'请插入轮播图']);
         }
-        $path = $img->storeAs('carousels', $id.'.jpg');
-        $carousel = Carousel::find($id);
+        if(Carousel::where('order',$order)->first()){
+            return json_encode(['code'=>4,'msg'=>'序号'.$order.'已存在']);
+        }
+        $carousel = Carousel::first($id);
+        $path = $img->storeAs('carousels', uniqid().'.jpg');
         $carousel->order = $order;
-        $carousel->url = 'storage/app/'.$path;
+        $carousel->url = '/usr/local/nginx/html/poetry/storage/app/'.$path;
         if ($carousel->save()){
             return json_encode(['code'=>0,'msg'=>'成功修改一张轮播图']);
         }else{
@@ -42,7 +51,7 @@ class Carousel extends Model
     }
 
     public function del($id){
-        $carousel = Carousel::find($id);
+        $carousel = Carousel::first($id);
         if($carousel->delete()){
             return json_encode(['code'=>0,'msg'=>'删除轮播图成功']);
         }else{
@@ -51,15 +60,10 @@ class Carousel extends Model
     }
 
     public function show(){
-        if($carousels = Carousel::all()){
-            $i = 0;$car['code']=0;
-            foreach ($carousels as $carousel){
-                $car['data'][$i]['id'] = $carousel->id;
-                $car['data'][$i]['order'] = $carousel->order;
-                $car['data'][$i]['url'] = $carousel->url;
-                $i++;
-            }
-            return json_encode($car);
+        if($carousels = Carousel::orderBy('order', 'asc')->get()){
+            $carousel['code'] = 0;
+            $carousel['data'] = $carousels;
+            return $carousel;
         }else{
             return json_encode(['code'=>1,'msg'=>'查询轮播图失败，请稍后再试']);
         }

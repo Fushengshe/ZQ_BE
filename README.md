@@ -42,9 +42,8 @@ email(string) | 传入邮箱  | 1822023868@qq.com
 username(string) | 传入用户名  | maoqiu
 password(string) | 传入密码  | maoqiu123456.
 portrait(string) | 传入用户头像  | C:\xampp\tmp\phpC6D5.tmp
-power(int) | 传入权限  | 0
 
-注册成功返回 
+注册成功则power为0，返回 
  ```json
 {
     "code": 0,
@@ -84,9 +83,8 @@ email(string) | 传入邮箱  | 1822023868@qq.com
 username(string) | 传入用户名  | maoqiu
 password(string) | 传入密码  | maoqiu123456.
 portrait(string) | 传入用户头像  | C:\xampp\tmp\phpC6D5.tmp
-power(int) | 传入权限  | 1
 
-注册成功返回 
+注册成功则power为1，返回 
  ```json
 {
     "code": 0,
@@ -256,7 +254,7 @@ power(int) | 传入权限  | 1
 ----|------|----
 id(int) | 传入id,可选  | 3
 order(int) | 传入轮播图序号  | 1
-img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
+img(file) | 传入轮播图 | C:\Users\hasee\Pictures\Camera Roll\1.jpg
 
 添加成功返回 
  ```json
@@ -285,6 +283,12 @@ img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
        "msg":"该轮播图id已存在"
    }
    ```
+ ```json
+{
+    "code": 4,
+    "msg": "序号1已存在"
+}
+ ```
 
 ### 修改轮播图
 
@@ -298,7 +302,7 @@ img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
 ----|------|----
 id(int) | 传入id  | 3
 order(int) | 传入轮播图序号  | 1
-img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
+img(file) | 传入轮播图 | C:\Users\hasee\Pictures\Camera Roll\1.jpg
 
 修改成功返回 
  ```json
@@ -321,6 +325,12 @@ img(file) | 传入轮播图 | http://otq91javs.bkt.clouddn.com/im1.jpg
       "msg":"请插入轮播图"
   }
   ```
+   ```json
+  {
+      "code": 4,
+      "msg": "序号1已存在"
+  }
+   ```
 
 
 ### 删除轮播图
@@ -362,31 +372,50 @@ id(int) | 传入id  | 3
 展示成功返回
 ```json
 {
-      "code": 0,
-      "data": [
-          {
-              "id": 1,
-              "order": 1,
-              "url": "http://otq91javs.bkt.clouddn.com/im1.jpg"
-          },
-          {
-              "id": 3,
-              "order": 2,
-              "url": "http://otq91javs.bkt.clouddn.com/im1.jpg"
-          },
-          {
-              "id": 4,
-              "order": 3,
-              "url": "C:\\xampp\\tmp\\php276D.tmp"
-          },
-          {
-              "id": 5,
-              "order": 4,
-              "url": "C:\\xampp\\tmp\\php4F05.tmp"
-          }
-      ]
-  }
- ```
+    "code": 0,
+    "data": [
+        {
+            "id": 4,
+            "order": "1",
+            "url": "/usr/local/nginx/html/poetry/storage/app/carousels/59abfc2424b20.jpg"
+        },
+        {
+            "id": 2,
+            "order": "2",
+            "url": "/usr/local/nginx/html/poetry/storage/app/carousels/59abfc0d7c19f.jpg"
+        },
+        {
+            "id": 3,
+            "order": "3",
+            "url": "/usr/local/nginx/html/poetry/storage/app/carousels/59abfc193a63e.jpg"
+        },
+        {
+            "id": 1,
+            "order": "4",
+            "url": "/usr/local/nginx/html/poetry/storage/app/carousels/59abfbf15e248.jpg"
+        },
+        {
+            "id": 5,
+            "order": "5",
+            "url": "/usr/local/nginx/html/poetry/storage/app/carousels/59abfc2b96ddc.jpg"
+        },
+        {
+            "id": 6,
+            "order": "6",
+            "url": "/usr/local/nginx/html/poetry/storage/app/carousels/59abfc36b9978.jpg"
+        },
+        {
+            "id": 7,
+            "order": "7",
+            "url": "/usr/local/nginx/html/poetry/storage/app/carousels/59abfc3f7d095.jpg"
+        },
+        {
+            "id": 8,
+            "order": "8",
+            "url": "/usr/local/nginx/html/poetry/storage/app/carousels/59abfc45634f5.jpg"
+        }
+    ]
+}
 
 展示失败返回
 ```json
@@ -408,7 +437,7 @@ id(int) | 传入id  | 3
 ----|------|----
 id(int) | 传入id,可选  | 3
 order(int) | 传入诗词社序号  | 1
-img(file) | 传入图片 | http://otq91javs.bkt.clouddn.com/im1.jpg
+img(file) | 传入图片 | C:\Users\hasee\Pictures\Camera Roll\1.jpg
 name(string) | 传入desc,诗词社的名字  | 诗词社
 
 添加成功返回 
@@ -438,6 +467,12 @@ name(string) | 传入desc,诗词社的名字  | 诗词社
       "msg": "该诗词社id已存在"
   }
    ```
+ ```json
+{
+    "code": 4,
+    "msg": "序号1已存在"
+}
+ ```
 ### 修改诗词社
 
 >http://www.thmaoqiu.cn/poetry/public/index.php/poetrysociety/edit
@@ -450,7 +485,7 @@ name(string) | 传入desc,诗词社的名字  | 诗词社
 ----|------|----
 id(int) | 传入id  | 3
 order(int) | 传入诗词社序号  | 1
-img(file) | 传入图片 | http://otq91javs.bkt.clouddn.com/im1.jpg
+img(file) | 传入图片 | C:\Users\hasee\Pictures\Camera Roll\1.jpg
 name(string) | 传入desc,诗词社的名字  | 诗词社
 
 修改成功返回 
@@ -474,6 +509,12 @@ name(string) | 传入desc,诗词社的名字  | 诗词社
     "msg": "请插入诗词社图片"
 }
   ```
+ ```json
+{
+    "code": 4,
+    "msg": "序号1已存在"
+}
+ ```
 
 ### 删除诗词社
 
@@ -517,27 +558,45 @@ id(int) | 传入id  | 3
     "code": 0,
     "data": [
         {
-            "id": 1,
-            "order": 1,
-            "url": "http://otq91javs.bkt.clouddn.com/im1.jpg",
+            "id": 7,
+            "order": "1",
+            "url": "/usr/local/nginx/html/poetry/storage/app/poetrysocietys/59abfe65633bd.jpg",
             "name": "诗词社"
         },
         {
             "id": 2,
-            "order": 2,
-            "url": "http://otq91javs.bkt.clouddn.com/im1.jpg",
-            "name": null
+            "order": "2",
+            "url": "/usr/local/nginx/html/poetry/storage/app/poetrysocietys/59abfe144e1a6.jpg",
+            "name": "诗词社"
         },
         {
             "id": 3,
-            "order": 3,
-            "url": "http://otq91javs.bkt.clouddn.com/im1.jpg",
-            "name": null
+            "order": "3",
+            "url": "/usr/local/nginx/html/poetry/storage/app/poetrysocietys/59abfe1eaa747.jpg",
+            "name": "诗词社"
+        },
+        {
+            "id": 4,
+            "order": "3",
+            "url": "/usr/local/nginx/html/poetry/storage/app/poetrysocietys/59abfe236ed56.jpg",
+            "name": "诗词社"
         },
         {
             "id": 5,
-            "order": 4,
-            "url": "http://otq91javs.bkt.clouddn.com/im1.jpg",
+            "order": "5",
+            "url": "/usr/local/nginx/html/poetry/storage/app/poetrysocietys/59abfe35f11d0.jpg",
+            "name": "诗词社"
+        },
+        {
+            "id": 6,
+            "order": "6",
+            "url": "/usr/local/nginx/html/poetry/storage/app/poetrysocietys/59abfe3e1bef5.jpg",
+            "name": "诗词社"
+        },
+        {
+            "id": 1,
+            "order": "7",
+            "url": "/usr/local/nginx/html/poetry/storage/app/poetrysocietys/59abfe0b22dd6.jpg",
             "name": "诗词社"
         }
     ]

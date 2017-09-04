@@ -11,19 +11,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class PoetrySociety extends Model
 {
+    protected $hidden = [
+        'updated_at','created_at',
+    ];
     protected $table = 'poetry_societys';
     public function add($id,$order,$img,$name){
-        $poetrysociety = new PoetrySociety();
         if (!$img){
             return json_encode(['code'=>2,'msg'=>'请插入诗词社图片']);
         }
-        if ($poetrysociety->find($id)){
+        if(PoetrySociety::where('order',$order)->first()){
+            return json_encode(['code'=>4,'msg'=>'序号'.$order.'已存在']);
+        }
+        $poetrysociety = new PoetrySociety();
+        if ($poetrysociety->first($id)){
             return json_encode(['code'=>3,'msg'=>'该诗词社id已存在']);
         }
-        $path = $img->storeAs('poetrysocietys', $id.'.jpg');
+        $path = $img->storeAs('poetrysocietys', uniqid().'.jpg');
         $poetrysociety->id = $id;
         $poetrysociety->order = $order;
-        $poetrysociety->url = 'storage/app/'.$path;
+        $poetrysociety->url = '/usr/local/nginx/html/poetry/storage/app/'.$path;
         $poetrysociety->name = $name;
         if ($poetrysociety->save()){
             return json_encode(['code'=>0,'msg'=>'成功添加一个诗词社']);
@@ -36,10 +42,13 @@ class PoetrySociety extends Model
         if (!$img){
             return json_encode(['code'=>2,'msg'=>'请插入诗词社图片']);
         }
-        $path = $img->storeAs('poetrysocietys', $id.'.jpg');
-        $poetrysociety = PoetrySociety::find($id);
+        if(PoetrySociety::where('order',$order)->first()){
+            return json_encode(['code'=>4,'msg'=>'序号'.$order.'已存在']);
+        }
+        $poetrysociety = PoetrySociety::first($id);
+        $path = $img->storeAs('poetrysocietys', uniqid().'.jpg');
         $poetrysociety->order = $order;
-        $poetrysociety->url = 'storage/app/'.$path;
+        $poetrysociety->url = '/usr/local/nginx/html/poetry/storage/app/'.$path;
         $poetrysociety->name = $name;
         if ($poetrysociety->save()){
             return json_encode(['code'=>0,'msg'=>'成功修改一个诗词社']);
@@ -49,7 +58,7 @@ class PoetrySociety extends Model
     }
 
     public function del($id){
-        $poetrysociety = PoetrySociety::find($id);
+        $poetrysociety = PoetrySociety::first($id);
         if ($poetrysociety->delete()){
             return json_encode(['code'=>0,'msg'=>'成功删除一个诗词社']);
         }else{
@@ -58,15 +67,10 @@ class PoetrySociety extends Model
     }
 
     public function show(){
-        if($poetrysocietys = PoetrySociety::all()){
-            $i = 0;$poe['code']=0;
-            foreach ($poetrysocietys as $poetrysociety){
-                $poe['data'][$i]['id'] = $poetrysociety->id;
-                $poe['data'][$i]['url'] = $poetrysociety->url;
-                $poe['data'][$i]['name'] = $poetrysociety->name;
-                $i++;
-            }
-            return json_encode($poe);
+        if($poetrysocietys = PoetrySociety::orderBy('order','asc')->get()){
+            $poetrysociety['code'] = 0;
+            $poetrysociety['data'] = $poetrysocietys;
+            return $poetrysociety;
         }else{
             return json_encode(['code'=>1,'msg'=>'查询诗词社失败，请稍后再试']);
         }
