@@ -18,13 +18,13 @@ class Carousel extends Model
             return json_encode(['code'=>4,'msg'=>'序号'.$order.'已存在']);
         }
         $carousel = new Carousel();
-        if ($carousel->first($id)){
+        if ($carousel->where('id',$id)->first()){
             return json_encode(['code'=>3,'msg'=>'该轮播图id已存在']);
         }
         $path = $img->storeAs('carousels', uniqid().'.jpg');
         $carousel->id = $id;
         $carousel->order = $order;
-        $carousel->url = '/usr/local/nginx/html/poetry/storage/app/'.$path;
+        $carousel->url = 'http://www.thmaoqiu.cn/poetry/storage/app/'.$path;
         if ($carousel->save()){
             return json_encode(['code'=>0,'msg'=>'成功添加一张轮播图']);
         }else{
@@ -39,10 +39,13 @@ class Carousel extends Model
         if(Carousel::where('order',$order)->first()){
             return json_encode(['code'=>4,'msg'=>'序号'.$order.'已存在']);
         }
-        $carousel = Carousel::first($id);
+        if (!$carousel = Carousel::where('id',$id)->first()){
+            return json_encode(['code'=>5,'msg'=>'轮播图id不存在']);
+        }
+
         $path = $img->storeAs('carousels', uniqid().'.jpg');
         $carousel->order = $order;
-        $carousel->url = '/usr/local/nginx/html/poetry/storage/app/'.$path;
+        $carousel->url = 'http://www.thmaoqiu.cn/poetry/storage/storage/app/'.$path;
         if ($carousel->save()){
             return json_encode(['code'=>0,'msg'=>'成功修改一张轮播图']);
         }else{
@@ -51,11 +54,14 @@ class Carousel extends Model
     }
 
     public function del($id){
-        $carousel = Carousel::first($id);
-        if($carousel->delete()){
-            return json_encode(['code'=>0,'msg'=>'删除轮播图成功']);
+        if ($carousel = Carousel::where('id',$id)->first()){
+            if($carousel->delete()){
+                return json_encode(['code'=>0,'msg'=>'删除轮播图成功']);
+            }else{
+                return json_encode(['code'=>1,'msg'=>'删除轮播图失败，请稍后再试']);
+            }
         }else{
-            return json_encode(['code'=>1,'msg'=>'删除轮播图失败，请稍后再试']);
+            return json_encode(['code'=>2,'msg'=>'未找到该轮播图']);
         }
     }
 

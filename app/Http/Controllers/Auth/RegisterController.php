@@ -66,49 +66,54 @@ class RegisterController extends Controller
     {
         $validator = $this->validator($request->all());
         $errors = $validator->errors()->first();
-        $portrait = $request->file('portrait');
-        $path = $portrait->storeAs('portraits', uniqid().'.jpg');
-        if (empty($errors)) {
-            $data = [
-                'username' => $request->username,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-                'portrait' => '/usr/local/nginx/html/poetry/storage/app/'.$path,
-                'power' => 0,
-            ];
-            if (User::create($data)) {
-                return json_encode(['code' => 0, 'msg' => '注册成功']);
+        if ($portrait = $request->file('portrait')){
+            $path = $portrait->storeAs('portraits', uniqid().'.jpg');
+            if (empty($errors)) {
+                $data = [
+                    'username' => $request->username,
+                    'email' => $request->email,
+                    'password' => bcrypt($request->password),
+                    'portrait' => 'http://www.thmaoqiu.cn/poetry/storage/app/'.$path,
+                    'power' => 0,
+                ];
+                if (User::create($data)) {
+                    return json_encode(['code' => 0, 'msg' => '注册成功']);
+                } else {
+                    return json_encode(['code' => 2, 'msg' => '注册失败请稍后再试']);
+                }
             } else {
-                return json_encode(['code' => 2, 'msg' => '注册失败请稍后再试']);
+                return json_encode(['code' => 1, 'msg' => $errors]);
             }
-        } else {
-            return json_encode(['code' => 1, 'msg' => $errors]);
+        }else{
+            return json_encode(['code'=>3,'msg'=>'请插入用户头像']);
         }
+
     }
 
     protected function adminRegister(Request $request){
         $validator = $this->validator($request->all());
         $errors = $validator->errors()->first();
-        $portrait = $request->file('portrait');
-        $path = $portrait->storeAs('portraits', uniqid().'.jpg');
-        if (empty($errors)) {
-            $data = [
-                'username' => $request->username,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-                'portrait' => '/usr/local/nginx/html/poetry/storage/app/'.$path,
-                'power' => 1,
-            ];
-            if (User::create($data)) {
-                return json_encode(['code' => 0, 'msg' => '管理员注册成功']);
+        if($portrait = $request->file('portrait')){
+            $path = $portrait->storeAs('portraits', uniqid().'.jpg');
+            if (empty($errors)) {
+                $data = [
+                    'username' => $request->username,
+                    'email' => $request->email,
+                    'password' => bcrypt($request->password),
+                    'portrait' => 'http://www.thmaoqiu.cn/poetry/storage/app/'.$path,
+                    'power' => 1,
+                ];
+                if (User::create($data)) {
+                    return json_encode(['code' => 0, 'msg' => '管理员注册成功']);
+                } else {
+                    return json_encode(['code' => 2, 'msg' => '注册失败请稍后再试']);
+                }
             } else {
-                return json_encode(['code' => 2, 'msg' => '注册失败请稍后再试']);
+                return json_encode(['code' => 1, 'msg' => $errors]);
             }
-        } else {
-            return json_encode(['code' => 1, 'msg' => $errors]);
+        }else{
+            return json_encode(['code'=>3,'msg'=>'请插入用户头像']);
         }
     }
-
-
 
 }

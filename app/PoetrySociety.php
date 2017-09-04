@@ -23,13 +23,13 @@ class PoetrySociety extends Model
             return json_encode(['code'=>4,'msg'=>'序号'.$order.'已存在']);
         }
         $poetrysociety = new PoetrySociety();
-        if ($poetrysociety->first($id)){
+        if ($poetrysociety->where('id',$id)->first()){
             return json_encode(['code'=>3,'msg'=>'该诗词社id已存在']);
         }
         $path = $img->storeAs('poetrysocietys', uniqid().'.jpg');
         $poetrysociety->id = $id;
         $poetrysociety->order = $order;
-        $poetrysociety->url = '/usr/local/nginx/html/poetry/storage/app/'.$path;
+        $poetrysociety->url = 'http://www.thmaoqiu.cn/poetry/storage/app/'.$path;
         $poetrysociety->name = $name;
         if ($poetrysociety->save()){
             return json_encode(['code'=>0,'msg'=>'成功添加一个诗词社']);
@@ -45,10 +45,13 @@ class PoetrySociety extends Model
         if(PoetrySociety::where('order',$order)->first()){
             return json_encode(['code'=>4,'msg'=>'序号'.$order.'已存在']);
         }
-        $poetrysociety = PoetrySociety::first($id);
+        if (!$poetrysociety = PoetrySociety::where('id',$id)->first()){
+            return json_encode(['code'=>5,'msg'=>'诗词社id不存在']);
+        }
+
         $path = $img->storeAs('poetrysocietys', uniqid().'.jpg');
         $poetrysociety->order = $order;
-        $poetrysociety->url = '/usr/local/nginx/html/poetry/storage/app/'.$path;
+        $poetrysociety->url = 'http://www.thmaoqiu.cn/poetry/storage/app/'.$path;
         $poetrysociety->name = $name;
         if ($poetrysociety->save()){
             return json_encode(['code'=>0,'msg'=>'成功修改一个诗词社']);
@@ -58,11 +61,14 @@ class PoetrySociety extends Model
     }
 
     public function del($id){
-        $poetrysociety = PoetrySociety::first($id);
-        if ($poetrysociety->delete()){
-            return json_encode(['code'=>0,'msg'=>'成功删除一个诗词社']);
+        if ($poetrysociety = PoetrySociety::where('id',$id)->first()){
+            if ($poetrysociety->delete()){
+                return json_encode(['code'=>0,'msg'=>'成功删除一个诗词社']);
+            }else{
+                return json_encode(['code'=>1,'msg'=>'删除诗词社失败请稍后再试']);
+            }
         }else{
-            return json_encode(['code'=>1,'msg'=>'删除诗词社失败请稍后再试']);
+            return json_encode(['code'=>2,'msg'=>'未找到该诗词社']);
         }
     }
 
