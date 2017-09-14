@@ -1497,3 +1497,71 @@ uid(string) |  父评论id | 1
 }
  ```
 
+ ###本站动态
+ >http://www.thmaoqiu.cn/poetry/public/index.php/sitemov
+ 
+数据传输方式：GET
+
+数据传输格式为：JSON
+
+参数(类型) | 说明 | 示例
+----|------|----
+
+
+展示成功返回
+```
+{
+    "code": 0,
+    "data": [
+        {
+            "id": 3,
+            "author": "作者三",
+            "title": "标题三",
+            "content": "文章三",
+            "pic": "/pic3",
+            "source": "企鹅",
+            "list_id": "3",
+            "created_at": "2009-06-18 10:38:41"
+        }
+    ]
+}
+```
+
+展示失败返回
+`{'code'=>1,'msg'=>'查询失败，请稍后再试'}`
+
+ ###新闻速递
+ >http://www.thmaoqiu.cn/poetry/public/index.php/newsexp
+ 
+数据传输方式：GET
+
+数据传输格式为：JSON
+
+参数(类型) | 说明 | 示例
+----|------|----
+
+
+展示成功返回
+```
+{
+    "code": 0,
+    "data": [
+        {
+            "id": 3,
+            "author": "作者三",
+            "title": "标题三",
+            "content": "文章三",
+            "pic": "/pic3",
+            "source": "企鹅",
+            "list_id": "3",
+            "created_at": "2009-06-18 10:38:41"
+        }
+    ]
+}
+```
+
+展示失败返回
+`{'code'=>1,'msg'=>'查询失败，请稍后再试'}`
+
+
+ 
