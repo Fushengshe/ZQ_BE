@@ -57,6 +57,7 @@ Route::get('/storelists','ListController@store')->middleware('domain');
 Route::get('/addart','ArticleController@addArt')->middleware('domain');
 Route::get('/editart','ArticleController@editArt')->middleware('domain');
 Route::get('/delart','ArticleController@delArt')->middleware('domain');
+Route::get('/delart','ArticleController@delArt')->middleware('domain');
 Route::get('/showart','ArticleController@showArt')->middleware('domain');
 Route::get('/showtitle','ArticleController@showTitle')->middleware('domain');
 Route::get('/showmore','ArticleController@showMore')->middleware('domain');
@@ -72,3 +73,7 @@ Route::get('/morecomment','CommentController@moreComment')->middleware('domain')
 
 Route::get('/loginpage','Auth\RootController@login');
 Route::get('/index','Auth\RootController@index');
+/** 本站动态.新闻速递 */
+Route::get('/sitemov','ArticleController@SiteMovition');
+Route::get('/newsexp','ArticleController@NewsExpress');
+

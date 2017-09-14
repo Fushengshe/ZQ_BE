@@ -42,7 +42,6 @@ class Carousel extends Model
         if (!$carousel = Carousel::where('id',$id)->first()){
             return json_encode(['code'=>5,'msg'=>'轮播图id不存在']);
         }
-
         $path = $img->storeAs('carousels', uniqid().'.jpg');
         $carousel->order = $order;
         $carousel->url = 'http://www.thmaoqiu.cn/poetry/storage/storage/app/'.$path;

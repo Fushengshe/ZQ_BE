@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
+
+    protected $table = 'article';
+
     public function add($data)
     {
         $created_at = time();
@@ -146,6 +149,45 @@ class Article extends Model
             return $err_msg;
         }
 
+    }
+
+    public function SiteMov()
+    {
+        //截取诗联大赛 大学堂 校园联盟中的文章 获取所有可能的分类id
+        $cat_arr = [3, 4, 5];
+        foreach($cat_arr as $cat_item) {
+            $sons = DB::table('lists')
+                ->where('uid', $cat_item)
+                ->orderBy('order')
+                ->select('*')
+                ->get()->toArray();
+            foreach($sons as $son_item) {
+                if(!in_array($son_item -> id, $cat_arr)) {
+                    array_push($cat_arr, (int)($son_item -> id));
+                }
+            }
+        }
+
+        $articles = $this -> where('list_id', $cat_arr) -> limit(7) -> get();
+        return $articles;
+    }
+
+    public function NewExpress()
+    {
+        $cat_arr = [3];
+        $sons = DB::table('lists')
+            ->where('uid', 3)
+            ->orderBy('order')
+            ->select('*')
+            ->get() -> toArray();
+        foreach($sons as $son_item) {
+            if(!in_array($son_item -> id, $cat_arr)) {
+                array_push($cat_arr, (int)($son_item -> id));
+            }
+        }
+
+        $articles = $this -> where('list_id', $cat_arr) -> limit(7) -> get();
+        return $articles;
     }
 
 
