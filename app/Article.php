@@ -154,6 +154,7 @@ class Article extends Model
     public function SiteMov()
     {
         //截取诗联大赛 大学堂 校园联盟中的文章 获取所有可能的分类id
+        //增加本站动态那张图片以及上面的第一个文章的内容
         $cat_arr = [3, 4, 5];
         foreach($cat_arr as $cat_item) {
             $sons = DB::table('lists')

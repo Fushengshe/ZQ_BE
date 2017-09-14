@@ -169,14 +169,16 @@ class ArticleController extends Controller
     public function SiteMovition()
     {
         $Article = new Article();
-        $data = $Article -> SiteMov();
+        $data['data'] = $Article -> SiteMov();
+        $data['first_content'] = mb_substr($data['data'][0]['content'], 0, 18, 'utf-8');
         return response() -> json(['code' => 0, 'data'=>$data]);
     }
 
     public function NewsExpress()
     {
         $Article = new Article();
-        $data = $Article -> NewExpress();
+        $data['data'] = $Article -> NewExpress();
+        $data['first_content'] = mb_substr($data['data'][0]['content'], 0, 18, 'utf-8');
         return response() -> json(['code' => 0, 'data' => $data]);
     }
 

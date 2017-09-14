@@ -74,6 +74,6 @@ Route::get('/morecomment','CommentController@moreComment')->middleware('domain')
 Route::get('/loginpage','Auth\RootController@login');
 Route::get('/index','Auth\RootController@index');
 /** 本站动态.新闻速递 */
-Route::get('/sitemov','ArticleController@SiteMovition');
-Route::get('/newsexp','ArticleController@NewsExpress');
+Route::get('/sitemov','ArticleController@SiteMovition')->middleware('domain');
+Route::get('/newsexp','ArticleController@NewsExpress')->middleware('domain');
 
